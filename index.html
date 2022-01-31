@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    a {
+        width: 170px;
+    height: 40px;
+    background-color: #769dc1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin: 0 auto;
+    position: relative;
+    }
+</style>
+<body>
+    <a href="">Link</a>
+</body>
+
+<script>
+    document.querySelector("a").addEventListener('click', function(evt) {
+        evt.preventDefault();
+        let linkTo = evt.currentTarget.getAttribute('href');
+        let bounds = evt.currentTarget.getBoundingClientRect();
+        let xAxis = evt.clientX - bounds.left;
+        let yAxis = evt.clientY - bounds.top;
+
+        console.log(xAxis)
+        console.log(yAxis)
+
+        evt.target.style.overflow = `hidden`;
+        const hover = document.createElement('span');
+        hover.style = `height:5px;width:5px;transition:0.3s;background:rgba(255, 255, 255, 0.2);position:absolute;top:${yAxis-2.5}px;left:${xAxis-2.5}px;transition:0.9s;border-radius:100%;`;
+        evt.target.insertAdjacentElement('afterbegin', hover);
+        setTimeout(() => {
+            hover.style = `height:300px;width:300px;transition:0.3s;background:rgba(255, 255, 255, 0.2);position:absolute;top:${yAxis-150}px;left:${xAxis-150}px;transition:0.9s;border-radius:100%;`;
+            setTimeout(() => {
+                hover.style.opacity = '0';
+                hover.style.pointerEvents = `none`;
+                setTimeout(() => {
+                    hover.remove();
+                    linkTo === window.location.pathname ? window.history.back() : document.location.href = linkTo;
+                }, 400)
+            }, 200)
+        }, 50)
+    })
+</script>
+</html>
